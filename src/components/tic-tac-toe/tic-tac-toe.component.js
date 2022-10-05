@@ -103,52 +103,64 @@ function Board() {
         
         // tic-tac-toe winning patterns
         const winningPatterns = [
-            [1, 2, 3],[4, 5, 6],[7, 8, 9],
-            [1, 4, 7],[2, 5, 8],[3, 6, 9],
-            [1, 5, 9],[3, 5, 7]
+            [0, 1, 2],[3, 4, 5],[6, 7, 8],
+            [0, 3, 6],[1, 4, 7],[2, 5, 8],
+            [0, 4, 8],[2, 4, 6]
         ]
-
+        console.log(squares);
         // check patterns against current square setup
         for (let i = 0; i < winningPatterns.length; i++) {
-            const [a,b,c] = winningPatterns[i];
-
-            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            const [a, b, c] = winningPatterns[i];
+            
+            if (squares[a] !== null && squares[a] === squares[b] && squares[a] === squares[c]) {
+            
+                setWinner(squares[a]);
+                setTimeout(() => alert(`congratulations player ${squares[a]}!! You won!!`), 500)
                 return squares[a];
             }
 
-            return null;
         }
-
+        
+        return null;
     }
 
     const [nextPlayer, setNextPlayer] = useState('X');
     const [squares, setSquares] = useState(new Array(9).fill(null));
-    console.log('squares', squares);
+    const [winner, setWinner] = useState('None');
+    
+
+   
 
     function handleClick(i) {
-        console.log('click')
-        if (nextPlayer === 'O' && squares[i] === null) {
-            squares[i] = 'O';
-            setSquares(squares);
+        
+        if (calculateWinner(squares) || squares[i]) {
+            return
+          }
+        
+        if (nextPlayer === 'O' ) {
+            squares[i] = 'O';           
             setNextPlayer('X')
-        } else if (nextPlayer === 'X'  && squares[i] === null) {
+        } else if (nextPlayer === 'X' ) {
             squares[i] = 'X';
-            console.log('X')
-            setSquares(squares);
             setNextPlayer('O')
         }
+
+        setSquares(squares);
+
+        calculateWinner(squares);
 
       }
 
     function handleReset() {
         setSquares(new Array(9).fill(null));
         setNextPlayer('X');
+        setWinner('None')
     }
 
   return (
     <div style={containerStyle} className="gameBoard">
       <div id="statusArea" className="status" style={instructionsStyle}>Next player: <span>{nextPlayer}</span></div>
-      <div id="winnerArea" className="winner" style={instructionsStyle}>Winner: <span>None</span></div>
+      <div id="winnerArea" className="winner" style={instructionsStyle}>Winner: <span>{winner}</span></div>
       <button style={buttonStyle} onClick={handleReset}>Reset</button>
       <div style={boardStyle}>
         <div className="board-row" style={rowStyle}>
