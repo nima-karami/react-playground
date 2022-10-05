@@ -79,11 +79,9 @@ const buttonStyle = {
   'cursor': 'pointer',
 }
 
-
-
-
-
 function Square({ value, onClick }) {
+    
+    // change style based on value of the square
     let style = squareStyle;
 
     if (value === 'X') {
@@ -93,8 +91,7 @@ function Square({ value, onClick }) {
     }
 
     return (<div className="square" style={style} onClick={onClick}>{value}</div>);
-  
-}
+ }
 
 function Board() {
     
@@ -107,13 +104,14 @@ function Board() {
             [0, 3, 6],[1, 4, 7],[2, 5, 8],
             [0, 4, 8],[2, 4, 6]
         ]
-        console.log(squares);
+        
         // check patterns against current square setup
         for (let i = 0; i < winningPatterns.length; i++) {
             const [a, b, c] = winningPatterns[i];
             
             if (squares[a] !== null && squares[a] === squares[b] && squares[a] === squares[c]) {
-            
+                
+                // actions to take when there is a winner
                 setWinner(squares[a]);
                 setTimeout(() => alert(`congratulations player ${squares[a]}!! You won!!`), 500)
                 return squares[a];
@@ -124,19 +122,20 @@ function Board() {
         return null;
     }
 
+    // React state hooks
     const [nextPlayer, setNextPlayer] = useState('X');
     const [squares, setSquares] = useState(new Array(9).fill(null));
     const [winner, setWinner] = useState('None');
-    
-
-   
-
+  
+    // click handler to be passed to square components
     function handleClick(i) {
         
+        // check if there is a winner already or if squares have values
         if (calculateWinner(squares) || squares[i]) {
             return
           }
         
+        // Determine which value to insert into squares: X or O
         if (nextPlayer === 'O' ) {
             squares[i] = 'O';           
             setNextPlayer('X')
@@ -145,12 +144,13 @@ function Board() {
             setNextPlayer('O')
         }
 
+        // update squares and check if there's a winner
         setSquares(squares);
-
         calculateWinner(squares);
 
       }
 
+    // reset everything to default values
     function handleReset() {
         setSquares(new Array(9).fill(null));
         setNextPlayer('X');
