@@ -7,11 +7,18 @@ function App() {
 
   return (
     <div className='container'>
-      <div className='card'>
-        <TicTacToe />
+      <div className='card-container'>
+        <h3>TicTacToe</h3>
+        <div className='card-content'>
+          <TicTacToe />  
+        </div>
       </div>
-      <div className='card'>
-        <DigitalClock />
+
+      <div className='card-container'>
+        <h3>Digital clock</h3>
+        <div className='card-content'>
+          <DigitalClock />  
+        </div>
       </div>
     </div>
   );

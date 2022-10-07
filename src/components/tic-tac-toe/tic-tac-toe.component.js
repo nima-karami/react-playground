@@ -1,3 +1,4 @@
+import './tic-tac-toe.styles.css';
 import React, { useState } from 'react';
 
 const rowStyle = {
